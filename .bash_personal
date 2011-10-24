@@ -1,0 +1,106 @@
+# -*- sh -*-  Personal bash settings
+# Put this at the end of your .bashrc or .bash_profile file
+# # Source personal definitions
+# if [ -f ~/.bash_personal ]; then
+#         . ~/.bash_personal
+# fi
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    #alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias v='vim --remote-silent'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ipy="ipython -pylab"
+# alias iqlab='ipython-qtconsole --paging vsplit --pylab'
+alias iqlab='ipython-qtconsole --pylab'
+
+# sudo play nice please
+# alias sudo="sudo env PATH=$PATH"
+
+alias ga='git add'
+alias gp='git push'
+alias gl='git log'
+alias gs='git status'
+alias gd='git diff'
+alias gm='git commit -m'
+alias gma='git commit -am'
+alias gb='git branch'
+alias gc='git checkout'
+alias gra='git remote add'
+alias grr='git remote rm'
+alias gpu='git pull'
+alias gcl='git clone'
+
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+#alias l='ls -CF'
+
+# update for ubuntu
+alias apt-up='sudo apt-get update;sudo apt-get -y --force-yes dselect-upgrade'
+
+############################################################################
+#
+# Load basic bash utilities (handy functions and constants)
+#
+. $HOME/.bash_utils
+
+############################################################################
+
+# git completion
+. $HOME/.git-completion
+
+# bashmarks
+source $HOME/.bashmarks
+
+BLUE="\[\033[1;36m\]"
+YELLOW="\[\033[0;33m\]"
+GREEN="\[\033[0;00m\]"
+
+PS1="$BLUE\$(date +%H:%M) \w$YELLOW \$(__git_ps1)$GREEN\$ "
+
+# PS1='[\u@\h ${PWD/$HOME/~}$(__git_ps1 " (%s)")]\$ '
+
+# pushd to directory for python package
+function pushdp {
+   pushd `python -c "import os; import $1; print os.path.dirname($1.__file__)"`
+}
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# osx vim
+if [ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]; then
+    PATH=/Applications/MacVim.app/Contents/MacOS/:$PATH
+fi
