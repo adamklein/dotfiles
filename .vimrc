@@ -123,12 +123,10 @@ call pathogen#infect()
 nnoremap <silent><Leader>tf <Esc>:Pytest file<CR>
 nnoremap <silent><Leader>tc <Esc>:Pytest class<CR>
 nnoremap <silent><Leader>tm <Esc>:Pytest method<CR>
+nnoremap <silent><Leader>dm <Esc>:Pytest method --pdb<CR>
 nnoremap <silent><Leader>tn <Esc>:Pytest next<CR>
 nnoremap <silent><Leader>tp <Esc>:Pytest previous<CR>
 nnoremap <silent><Leader>te <Esc>:Pytest error<CR>
-
-"nmap <silent><Leader>ex :python exec vim.current.line<CR>
-"vmap <silent><Leader>ex :python exec_vimrange(vim.current.range)<CR>
 
 " ==========================================================
 " Basic Settings
@@ -156,7 +154,7 @@ nnoremap <leader>. :lcd %:p:h<CR>
 
 " Disable the colorcolumn when switching modes.  Make sure this is the
 " first autocmd for the filetype here
-" autocmd FileType * setlocal colorcolumn=0
+autocmd FileType * setlocal colorcolumn=0
 
 """ Insert completion
 " don't select first item, follow typing in autocomplete
@@ -164,7 +162,7 @@ set completeopt=menuone,longest,preview
 set pumheight=6             " Keep a small completion window
 
 " show a line at column 79
-" set colorcolumn=80
+set colorcolumn=80
 
 """ Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
@@ -267,17 +265,17 @@ au BufRead *.js set makeprg=jslint\ %
 let g:acp_completeoptPreview=1
 
 " ===========================================================
-" FileType specific changes
+" filetype specific changes
 " ============================================================
-" Mako/HTML
-autocmd BufNewFile,BufRead *.mako,*.mak setlocal ft=html
-autocmd FileType html,xhtml,xml,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
-
 " Python
 "au BufRead *.py compiler nose
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+
+" Cython
+au BufRead,BufNewFile *.pyx set filetype=cython
+
 " Don't let pyflakes use the quickfix window
 let g:pyflakes_use_quickfix = 0
 
