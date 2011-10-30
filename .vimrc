@@ -1,116 +1,6 @@
-" https://github.com/sontek/dotfiles/
-" ==========================================================
-" Dependencies - Libraries/Applications outside of vim
-" ==========================================================
-" Pep8 - http://pypi.python.org/pypi/pep8
-" Pyflakes
-" Ack
-" Rake & Ruby for command-t
-" nose, django-nose
-
-" ==========================================================
-" Plugins included
-" ==========================================================
-" Pathogen
-"     Better Management of VIM plugins
-"
-" GunDo
-"     Visual Undo in vim with diff's to check the differences
-"
-" Snipmate
-"     Configurable snippets to avoid re-typing common comands
-"
-" PyFlakes
-"     Underlines and displays errors with Python on-the-fly
-"
-" Fugitive
-"    Interface with git from vim
-"
-" Git
-"    Syntax highlighting for git config files
-"
-" Minibufexpl
-"    Visually display what buffers are currently opened
-"
-" Pydoc
-"    Opens up pydoc within vim
-"
-" Surround
-"    Allows you to surround text with open/close tags
-"
-" MakeGreen
-"    Generic test runner that works with nose
-"
-" ==========================================================
-" Shortcuts
-" ==========================================================
 set nocompatible              " Don't be compatible with vi
 set hidden                    " hidden buffer management
 let mapleader=","             " change the leader to be a comma vs slash
-
-nnoremap ' `
-nnoremap ` '
-
-" Toggle the tasklist
-map <leader>td <Plug>TaskList
-
-set backupdir=~/.vim/tmp
-set directory=~/.vim/tmp
-
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
-
-" Run pep8
-let g:pep8_map='<leader>8'
-
-" ,v brings up my .vimrc
-" ,V reloads it -- making all changes active (have to save first)
-map <leader>v :sp ~/.vimrc<CR><C-W>_
-map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
-
-" open/close the quickfix window
-nmap <leader>c :copen<CR>
-nmap <leader>cc :cclose<CR>
-
-" ctrl-jklm  changes to that split
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
-
-" easier to write"
-nnoremap <leader>w :w<CR>
-
-" this is fuzzy finder
-nnoremap <leader>ff :FufFile **/<CR>
-nnoremap <leader>fb :FufBuffer<CR>
-nnoremap <leader>fl :FufLine<CR>
-
-" and lets make these all work in insert mode too ( <C-O> makes next cmd
-"  happen as if in command mode )
-imap <C-W> <C-O><C-W>
-
-" Open NerdTree
-map <leader>n :NERDTreeToggle<CR>
-
-" Ack searching
-nmap <leader>a <Esc>:Ack!
-
-" Load the Gundo window
-map <leader>g :GundoToggle<CR>
-
-" remap escape to double k
-inoremap kk <ESC>
-
-" Jump to the definition of whatever the cursor is on
-map <leader>j :RopeGotoDefinition<CR>
-
-" Rename whatever the cursor is on (including references to it)
-map <leader>r :RopeRename<CR>
-
-" MakeGreen, play nice with leader-t
-" change from <Leader>t to <Leader>]
-map <Leader>] <Plug>MakeGreen 
 
 " ==========================================================
 " Pathogen - Allows us to organize our vim plugins
@@ -118,6 +8,7 @@ map <Leader>] <Plug>MakeGreen
 " Load pathogen with docs for all plugins
 filetype off
 call pathogen#infect()
+call pathogen#helptags()
 
 " run py.test's
 nnoremap <silent><Leader>tf <Esc>:Pytest file<CR>
@@ -152,17 +43,17 @@ set grepprg=ack-grep          " replace the default grep program with ack
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 
-" Disable the colorcolumn when switching modes.  Make sure this is the
-" first autocmd for the filetype here
 autocmd FileType * setlocal colorcolumn=0
 
-""" Insert completion
+"" Insert completion
 " don't select first item, follow typing in autocomplete
 set completeopt=menuone,longest,preview
 set pumheight=6             " Keep a small completion window
 
 " show a line at column 79
-set colorcolumn=80
+if exists("&colorcolumn")
+    set colorcolumn=79
+endif
 
 """ Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
@@ -232,9 +123,6 @@ endif
 " Paste from clipboard
 map <leader>p "+gP
 
-" Quit window on <leader>q
-nnoremap <leader>q <C-W>q
-"
 " hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
 
@@ -247,14 +135,15 @@ let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 
-" Select the item in the list with enter
-"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 " ==========================================================
 " Javascript
 " ==========================================================
 au BufRead *.js set makeprg=jslint\ %
 
+" Cython
+au BufRead,BufNewFile *.pyx set filetype=cython
+
+"
 " Don't allow snipmate to take over tab
 " autocmd VimEnter * ino <c-j> <c-r>=TriggerSnippet()<cr>
 " autocmd VimEnter * snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
@@ -264,20 +153,21 @@ au BufRead *.js set makeprg=jslint\ %
 " autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
 let g:acp_completeoptPreview=1
 
+let g:miniBufExplMapCTabSwitchWindows=1
+
 " ===========================================================
 " filetype specific changes
 " ============================================================
 " Python
-"au BufRead *.py compiler nose
 au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+set completeopt=menuone,longest,preview
+
 au FileType python setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
 
-" Cython
-au BufRead,BufNewFile *.pyx set filetype=cython
-
 " Don't let pyflakes use the quickfix window
-let g:pyflakes_use_quickfix = 0
+" let g:pyflakes_use_quickfix = 0
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -291,7 +181,74 @@ if 'VIRTUALENV' in os.environ:
     execfile(activate_this, dict(__file__=activate_this))
 EOF
 
-" Load up virtualenv's vimrc if it exists
-"if filereadable($VIRTUAL_ENV . '/.vimrc')
-"    source $VIRTUAL_ENV/.vimrc
-"endif
+" Some personal preferences:
+
+nnoremap ' `
+nnoremap ` '
+
+" Toggle the tasklist
+map <leader>td <Plug>TaskList
+
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
+
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
+" Run pep8
+let g:pep8_map='<leader>8'
+
+" ,v brings up my .vimrc
+" ,V reloads it -- making all changes active (have to save first)
+map <leader>v :sp ~/.vimrc<CR><C-W>_
+map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+" open/close the quickfix window
+nmap <leader>c :copen<CR>
+nmap <leader>cc :cclose<CR>
+
+" make it easy to search python files for current word
+noremap <leader>sp :execute "vimgrep /" . expand("<cword>") . "/j **/*.py **/*.pyx" <Bar> cw<CR>
+
+" ctrl-jklm  changes to that split
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+" easier to write"
+nnoremap <leader>w :w<CR>
+
+" this is fuzzy finder
+nnoremap <leader>ff :FufFile **/<CR>
+nnoremap <leader>fb :FufBuffer<CR>
+nnoremap <leader>fl :FufLine<CR>
+
+" and lets make these all work in insert mode too ( <C-O> makes next cmd
+"  happen as if in command mode )
+imap <C-W> <C-O><C-W>
+
+" Open NerdTree
+map <leader>n :NERDTreeToggle<CR>
+
+" Ack searching
+nmap <leader>a <Esc>:Ack!
+
+" Load the Gundo window
+map <leader>u :GundoToggle<CR>
+
+" remap escape to double k
+inoremap kk <ESC>
+
+" Jump to the definition of whatever the cursor is on
+map <leader>j :RopeGotoDefinition<CR>
+
+" Rename whatever the cursor is on (including references to it)
+map <leader>r :RopeRename<CR>
+
+" MakeGreen, play nice with leader-t
+" change from <Leader>t to <Leader>]
+map <Leader>] <Plug>MakeGreen 
+
+" Quit window on <leader>q
+nnoremap <leader>q :q<CR>
