@@ -1,5 +1,7 @@
+cd ~/.vim
+
 git init
-    
+
 git submodule add https://github.com/git-mirror/vim-l9.git bundle/l9
 git submodule add https://github.com/jpalardy/vim-slime.git bundle/slime
 git submodule add https://github.com/vim-scripts/taglist.vim.git bundle/taglist
@@ -39,3 +41,8 @@ git submodule foreach git submodule update
 
 cd bundle/command-t
 rake make
+
+cd ~/.vim
+mkdir tags
+ctags -R -f ~/.vim/tags/python.ctags /Library/Frameworks/Python.framework/Versions/7.1/lib/python2.7
+
