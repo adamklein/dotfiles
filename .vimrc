@@ -123,14 +123,7 @@ let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
 let Tlist_Show_One_File = 1       " Only show tags for current buffer
 let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
 
-" ropevim plugin
-let $PYTHONPATH .= "~/.vim/bundle/ropevim/ftplugin/python/libs/"
-let ropevim_vim_completion=1
-let ropevim_extended_complete=1
-let ropevim_guess_project=1
-
-" Remove trailing whitespace on <leader>S
-nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
+imap <buffer><Tab> <M-/>
 
 " Cython
 au BufRead,BufNewFile *.pyx set filetype=cython
@@ -150,6 +143,7 @@ au BufRead,BufNewFile *.pyx set filetype=cython
 " python
 au filetype python set omnifunc=pythoncomplete#Complete
 let g:supertabdefaultcompletiontype = "context"
+let g:SuperTabRetainCompletionDuration="completion"
 set completeopt=menuone,longest,preview
 set pumheight=6             " keep a small completion window
 
@@ -158,19 +152,30 @@ au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\
 au BufEnter *.py setlocal colorcolumn=79
 
 " Don't let pyflakes use the quickfix window
-" let g:pyflakes_use_quickfix = 0
+let g:pyflakes_use_quickfix = 0
 
 " Add the virtualenv's site-packages to vim path
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUALENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
+"py << EOF
+"import os.path
+"import sys
+"import vim
+"if 'VIRTUALENV' in os.environ:
+"    project_base_dir = os.environ['VIRTUAL_ENV']
+"    sys.path.insert(0, project_base_dir)
+"    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"    execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+" ropevim plugin
+"
+let ropevim_extended_complete=1
+let ropevim_guess_project=1
+
+" Jump to the definition of whatever the cursor is on
+map <leader>j :RopeGotoDefinition<CR>
+
+" Rename whatever the cursor is on (including references to it)
+map <leader>r :RopeRename<CR>
 
 " Some personal preferences:
 
@@ -195,7 +200,7 @@ map <leader>v :sp ~/.vimrc<CR><C-W>_
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " open/close the quickfix window
-nmap <leader>c :copen<CR>
+nmap <leader>co :copen<CR>
 nmap <leader>cc :cclose<CR>
 
 " ctrl-jklm  changes to that split
@@ -227,12 +232,6 @@ map <leader>u :GundoToggle<CR>
 
 " remap escape to double k
 inoremap kk <ESC>
-
-" Jump to the definition of whatever the cursor is on
-map <leader>j :RopeGotoDefinition<CR>
-
-" Rename whatever the cursor is on (including references to it)
-map <leader>r :RopeRename<CR>
 
 " MakeGreen, play nice with leader-t
 " change from <Leader>t to <Leader>]
