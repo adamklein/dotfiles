@@ -1,5 +1,5 @@
 git init
-
+    
 git submodule add https://github.com/git-mirror/vim-l9.git bundle/l9
 git submodule add https://github.com/jpalardy/vim-slime.git bundle/slime
 git submodule add https://github.com/vim-scripts/taglist.vim.git bundle/taglist
@@ -26,7 +26,7 @@ git submodule add https://github.com/alfredodeza/pytest.vim.git bundle/py.test
 git submodule add https://github.com/reinh/vim-makegreen bundle/makegreen
 git submodule add https://github.com/vim-scripts/TaskList.vim.git bundle/tasklist
 git submodule add https://github.com/vim-scripts/The-NERD-tree.git bundle/nerdtree
-git submodule add https://github.com/gordyt/rope-vim.git bundle/ropevim
+git submodule add https://github.com/sontek/rope-vim.git bundle/ropevim
 git submodule add https://github.com/scrooloose/nerdcommenter.git bundle/nerdcommenter
 
 git submodule sync
