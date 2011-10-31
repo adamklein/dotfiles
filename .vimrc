@@ -201,7 +201,7 @@ map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimr
 
 " open/close the quickfix window
 nmap <leader>co :copen<CR>
-nmap <leader>cc :cclose<CR>
+nmap <leader>cq :cclose<CR>
 
 " ctrl-jklm  changes to that split
 map <c-j> <c-w>j
