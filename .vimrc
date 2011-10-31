@@ -25,6 +25,7 @@ nnoremap <silent><Leader>te <Esc>:Pytest error<CR>
 syntax on                     " syntax highlighing
 filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
+
 set number                    " Display line numbers
 set numberwidth=1             " using only 1 column (and 1 space) while possible
 set background=dark           " We are using dark background in vim
@@ -45,17 +46,7 @@ nnoremap <leader>. :lcd %:p:h<CR>
 
 autocmd FileType * setlocal colorcolumn=0
 
-"" Insert completion
-" don't select first item, follow typing in autocomplete
-set completeopt=menuone,longest,preview
-set pumheight=6             " Keep a small completion window
-
-" show a line at column 79
-if exists("&colorcolumn")
-    set colorcolumn=79
-endif
-
-""" Moving Around/Editing
+"" Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
 set ruler                   " show the cursor position all the time
 set nostartofline           " Avoid moving cursor to BOL when jumping around
@@ -132,13 +123,14 @@ let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
 let Tlist_Show_One_File = 1       " Only show tags for current buffer
 let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
 
+" ropevim plugin
+let $PYTHONPATH .= "~/.vim/bundle/ropevim/ftplugin/python/libs/"
+let ropevim_vim_completion=1
+let ropevim_extended_complete=1
+let ropevim_guess_project=1
+
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
-
-" ==========================================================
-" Javascript
-" ==========================================================
-au BufRead *.js set makeprg=jslint\ %
 
 " Cython
 au BufRead,BufNewFile *.pyx set filetype=cython
@@ -148,23 +140,22 @@ au BufRead,BufNewFile *.pyx set filetype=cython
 " autocmd VimEnter * ino <c-j> <c-r>=TriggerSnippet()<cr>
 " autocmd VimEnter * snor <c-j> <esc>i<right><c-r>=TriggerSnippet()<cr>
 
-" Use tab to scroll through autocomplete menus
-" autocmd VimEnter * imap <expr> <Tab> pumvisible() ? "<C-N>" : "<Tab>"
-" autocmd VimEnter * imap <expr> <S-Tab> pumvisible() ? "<C-P>" : "<S-Tab>"
-let g:acp_completeoptPreview=1
-
-let g:miniBufExplMapCTabSwitchWindows=1
+:nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
 
 " ===========================================================
 " filetype specific changes
 " ============================================================
-" Python
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
+"
+" python
+au filetype python set omnifunc=pythoncomplete#Complete
+let g:supertabdefaultcompletiontype = "context"
 set completeopt=menuone,longest,preview
+set pumheight=6             " keep a small completion window
 
-au FileType python setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+au FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+au BufEnter *.py setlocal colorcolumn=79
 
 " Don't let pyflakes use the quickfix window
 " let g:pyflakes_use_quickfix = 0
@@ -207,9 +198,6 @@ map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimr
 nmap <leader>c :copen<CR>
 nmap <leader>cc :cclose<CR>
 
-" make it easy to search python files for current word
-noremap <leader>sp :execute "vimgrep /" . expand("<cword>") . "/j **/*.py **/*.pyx" <Bar> cw<CR>
-
 " ctrl-jklm  changes to that split
 map <c-j> <c-w>j
 map <c-k> <c-w>k
@@ -232,7 +220,7 @@ imap <C-W> <C-O><C-W>
 map <leader>n :NERDTreeToggle<CR>
 
 " Ack searching
-nmap <leader>a <Esc>:Ack!
+nmap <leader>a <Esc>:Ack! <cword>
 
 " Load the Gundo window
 map <leader>u :GundoToggle<CR>
