@@ -30,7 +30,6 @@ git submodule add https://github.com/vim-scripts/TaskList.vim.git bundle/tasklis
 git submodule add https://github.com/vim-scripts/The-NERD-tree.git bundle/nerdtree
 git submodule add https://github.com/sontek/rope-vim.git bundle/ropevim
 git submodule add https://github.com/scrooloose/nerdcommenter.git bundle/nerdcommenter
-git submodule add https://github.com/vim-scripts/simple-pairs.git bundle/simple-pairs
 
 git submodule sync
 git submodule init
