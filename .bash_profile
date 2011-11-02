@@ -14,5 +14,5 @@ cd ~/Documents/code
 
 # Setting PATH for EPD_free-7.1-2
 # The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
+PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/texbin:${PATH}"
 export PATH
