@@ -9,12 +9,6 @@
 "              (https://github.com/austintaylor/vim-indentobject)
 "============================================================================
 
-
-if (exists("g:loaded_pythontextobj") && g:loaded_pythontextobj)
-  finish
-endif
-let g:loaded_pythontextobj = 1
-
 onoremap <buffer> <silent>af :<C-u>call FunctionTextObject(0)<CR>
 onoremap <buffer> <silent>if :<C-u>call FunctionTextObject(1)<CR>
 vnoremap <buffer> <silent>af :<C-u>call FunctionTextObject(0)<CR><Esc>gv
@@ -24,6 +18,10 @@ onoremap <buffer> <silent>ic :<C-u>call ClassTextObject(1)<CR>
 vnoremap <buffer> <silent>ac :<C-u>call ClassTextObject(0)<CR><Esc>gv
 vnoremap <buffer> <silent>ic :<C-u>call ClassTextObject(1)<CR><Esc>gv
 
+if (exists("g:loaded_pythontextobj") && g:loaded_pythontextobj)
+  finish
+endif
+let g:loaded_pythontextobj = 1
 
 " Select an object ("class"/"function")
 function! s:PythonSelectObject(obj, inner)
