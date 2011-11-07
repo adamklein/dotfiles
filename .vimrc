@@ -110,6 +110,9 @@ nnoremap <leader>q :q<CR>
 " Paste from clipboard
 map <leader>p "+gP
 
+" Copy to clipboard
+map <leader>y "*y
+
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 

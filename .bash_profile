@@ -1,7 +1,7 @@
 export HOME="/Users/adam"
 
-if [ -f ~/.bash_personal ]; then
-    . ~/.bash_personal
+if [ -f $HOME/.bash_personal ]; then
+    . $HOME/.bash_personal
 fi
 
 # for ADA/gnat compiler
@@ -10,9 +10,12 @@ fi
 # MKL_NUM_THREADS=1
 # export MKL_NUM_THREADS
 
-cd ~/Documents/code
+# application path
+export PATH=/Applications/MacVim.app/Contents/MacOS/:/usr/local/share/python:/usr/texbin:$PATH
 
-# Setting PATH for EPD_free-7.1-2
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/texbin:${PATH}"
-export PATH
+# python path
+export PYTHONPATH=/usr/local/lib/python:$PYTHONPATH
+
+# setup virtualenv for python
+export WORKON_HOME=$HOME/.virtualenvs
+source virtualenvwrapper.sh

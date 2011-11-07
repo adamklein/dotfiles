@@ -37,9 +37,9 @@ alias v='vim --remote-silent'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ipy="ipython -pylab"
+alias ipy="ipython"
 # alias iqlab='ipython-qtconsole --paging vsplit --pylab'
-alias iqlab='ipython-qtconsole --pylab'
+alias iqlab='ipython-qtconsole --pylab=inline'
 
 # sudo play nice please
 # alias sudo="sudo env PATH=$PATH"
@@ -48,7 +48,7 @@ alias ga='git add'
 alias gp='git push'
 alias gl='git log --oneline'
 alias gs='git status'
-alias gd='git diff'
+alias gd='git diff --color'
 alias gm='git commit -m'
 alias gma='git commit -am'
 alias gb='git branch'
@@ -98,9 +98,4 @@ function pushdp {
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
-fi
-
-# osx vim
-if [ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]; then
-    PATH=/Applications/MacVim.app/Contents/MacOS/:$PATH
 fi
