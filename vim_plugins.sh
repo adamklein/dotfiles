@@ -1,6 +1,13 @@
+mkdir ~/.vim
+mkdir ~/.vim/autoload/
+mkdir ~/.vim/tmp
+
 cd ~/.vim
 
 git init
+
+git clone https://github.com/tpope/vim-pathogen.git tmp/pathogen
+mv tmp/pathogen/autoload/pathogen.vim ~/.vim/autoload
 
 git submodule add https://github.com/git-mirror/vim-l9.git bundle/l9
 git submodule add https://github.com/jpalardy/vim-slime.git bundle/slime
