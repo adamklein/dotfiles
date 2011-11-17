@@ -36,6 +36,11 @@ if( exists('+colorcolumn') )
     au BufEnter * set colorcolumn=0
 end
 
+" Setup up paths for tags - search in dir of curr file, then curr dir, then
+" recursively up.
+
+set tags=./tags,tags;/
+
 "" Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
 set ruler                   " show the cursor position all the time
@@ -171,7 +176,7 @@ map <c-h> <c-w>h
 nnoremap <leader>w :w<CR>
 
 " this is fuzzy finder
-nnoremap <leader>ff :FufFile **/<CR>
+nnoremap <leader>ff :FufFile<CR>
 nnoremap <leader>fb :FufBuffer<CR>
 nnoremap <leader>fl :FufLine<CR>
 
