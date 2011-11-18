@@ -1,0 +1,32 @@
+[core]
+	editor = /Applications/MacVim.app/Contents/MacOS/vim
+[user]
+    name = Adam Klein
+    email = adamklein@gmail.com
+[alias]
+    st = status
+    stat = status
+    co = checkout
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)[%an]%Creset' --abbrev-commit --date=relative
+    b = branch
+    ba = branch -a
+    c = commit -v
+    d = diff
+    l = pull
+    p = push
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[color]
+    diff = auto
+    status = true
+	ui = true
+[branch]
+    autosetupmerge = true
+[merge]
+    log = true
+    tool = tkdiff
+    conflictstyle = diff3
+[mergetool]
+    log = true
+    prompt = false
+[push]
+    default = tracking
