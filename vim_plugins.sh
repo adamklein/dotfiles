@@ -31,7 +31,6 @@ git submodule add https://github.com/mileszs/ack.vim.git bundle/ack
 git submodule add https://github.com/sjl/gundo.vim.git bundle/gundo
 git submodule add https://github.com/vim-scripts/pep8.git bundle/pep8
 git submodule add https://github.com/vim-scripts/TaskList.vim.git bundle/tasklist
-git submodule add https://github.com/vim-scripts/The-NERD-tree.git bundle/nerdtree
 git submodule add https://github.com/sontek/rope-vim.git bundle/ropevim
 git submodule add https://github.com/scrooloose/nerdcommenter.git bundle/nerdcommenter
 git submodule add https://github.com/vim-scripts/cscope_macros.vim.git bundle/cscope_macros
