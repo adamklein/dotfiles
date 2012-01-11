@@ -13,12 +13,16 @@ filetype off
 call pathogen#infect()
 call pathogen#helptags()
 
+" Cython file recognition
+au BufReadPre,BufNewFile *.pyx,*.pxd set filetype=cython
+
 " ==========================================================
 " Basic Settings
 " ==========================================================
-syntax on                     " syntax highlighing
+
 filetype on                   " try to detect filetypes
 filetype plugin indent on     " enable loading indent file for filetype
+syntax on                     " syntax highlighing
 
 set number                    " Display line numbers
 set numberwidth=1             " using only 1 column (and 1 space) while possible
@@ -36,10 +40,33 @@ if( exists('+colorcolumn') )
     au BufEnter * set colorcolumn=0
 end
 
+" this function lets us enter commands which pull the output to a
+" scratch vim buffer
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:    ' . a:cmdline)
+  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
+
 " Setup up paths for tags - search in dir of curr file, then curr dir, then
 " recursively up.
 
-set tags=./tags,tags;/
+set tags=./tags;/.
+set tags+=~/.vim/tags/usr.include.tags
 
 "" Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
@@ -53,8 +80,8 @@ set nowrap                  " don't wrap text
 set linebreak               " don't wrap textin the middle of a word
 set autoindent              " always set autoindenting on
 set smartindent             " use smart indent if there is no indent file
-set tabstop=4               " <tab> inserts 4 spaces 
-set shiftwidth=4            " but an indent level is 2 spaces wide.
+set tabstop=4               " <tab> inserts 4 spaces
+set shiftwidth=4            " an indent level is 4 spaces wide.
 set softtabstop=4           " <BS> over an autoindent deletes both spaces.
 set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
@@ -102,21 +129,19 @@ if has("gui_running")
     colorscheme solarized
 else
     colorscheme desert
+    set nocursorline        " remove cursorline
 endif
 
 """ Some remappings that make it easier to edit
 
-" remap escape to double k
-inoremap kk <ESC>
-
-" Quit window on <leader>q
-nnoremap <leader>q :q<CR>
+" remap escape to kj
+inoremap kj <ESC>
 
 " Paste from clipboard
 map <leader>p "+gP
 
 " Copy to clipboard
-map <leader>y "*y
+map <leader>y "+y
 
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
@@ -126,9 +151,6 @@ nnoremap <leader><space> :nohlsearch<cr>
 
 " Jump to the definition of whatever the cursor is on
 map <leader>j :RopeGotoDefinition<CR>
-
-" Rename whatever the cursor is on (including references to it)
-map <leader>r :RopeRename<CR>
 
 " ropevim plugin
 let ropevim_extended_complete=1
@@ -140,15 +162,12 @@ let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
 let Tlist_Show_One_File = 1       " Only show tags for current buffer
 let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
 
-" Cython file recognition
-au BufRead,BufNewFile *.pyx set filetype=cython
-
 " Use tab in normal mode to switch buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
 " Toggle the tasklist
-map <leader>td <Plug>TaskList
+map <leader>d <Plug>TaskList
 
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
@@ -159,7 +178,7 @@ nnoremap <C-y> 3<C-y>
 
 " ,v brings up .vimrc
 " ,V reloads it -- making all changes active (have to save first)
-map <leader>v :sp ~/.vimrc<CR><C-W>_
+map <leader>v :e ~/.vimrc<CR><C-W>_
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " open/close the quickfix window
@@ -172,8 +191,18 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
+" also in bufexplorer, disabled the nmap <leader>b prefixes
+nmap <Leader>bb :BufExplorer<CR>
+
+" Quit buffer on <leader>qb
+let g:BufClose_AltBuffer = '#'
+nnoremap <leader>bq :BufClose<CR>
+
 " easier to write
 nnoremap <leader>w :w<CR>
+
+" easier to quit window
+nnoremap <leader>q :q<CR>
 
 " this is fuzzy finder
 nnoremap <leader>ff :FufFile<CR>
@@ -195,4 +224,13 @@ map <leader>u :GundoToggle<CR>
 
 " MakeGreen, play nice with leader-t
 " change from <Leader>t to <Leader>]
-map <Leader>] <Plug>MakeGreen 
+map <Leader>] <Plug>MakeGreen
+
+" let's start in the code directory
+lcd ~/code
+
+" follow the current file's directory
+" autocmd BufEnter * silent! lcd %:p:h
+
+" from latex-suite
+let g:tex_flavor='latex'

@@ -37,7 +37,7 @@ alias v='vim --remote-silent'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ipy="ipython"
+alias ipy="ipython --pylab"
 # alias iqlab='ipython-qtconsole --paging vsplit --pylab'
 alias iqlab='ipython-qtconsole --pylab=inline'
 
@@ -55,7 +55,7 @@ alias gb='git branch'
 alias gc='git checkout'
 alias gra='git remote add'
 alias grr='git remote rm'
-alias gpu='git pull'
+alias gpu='git pull --ff-only'
 alias gcl='git clone'
 
 # some more ls aliases
@@ -98,4 +98,16 @@ function pushdp {
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+
+export WORKON_HOME=$HOME/.virtualenvs
+
+export PATH=$HOME/code/scripts:$PATH
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+if [ -f /home/adam/code/scripts/launch-ssh-agent ]; then
+    source /home/adam/code/scripts/launch-ssh-agent
 fi
