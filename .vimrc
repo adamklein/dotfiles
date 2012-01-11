@@ -40,28 +40,6 @@ if( exists('+colorcolumn') )
     au BufEnter * set colorcolumn=0
 end
 
-" this function lets us enter commands which pull the output to a
-" scratch vim buffer
-command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
-function! s:RunShellCommand(cmdline)
-  echo a:cmdline
-  let expanded_cmdline = a:cmdline
-  for part in split(a:cmdline, ' ')
-     if part[0] =~ '\v[%#<]'
-        let expanded_part = fnameescape(expand(part))
-        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
-     endif
-  endfor
-  botright new
-  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-  call setline(1, 'You entered:    ' . a:cmdline)
-  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
-  call setline(3,substitute(getline(2),'.','=','g'))
-  execute '$read !'. expanded_cmdline
-  setlocal nomodifiable
-  1
-endfunction
-
 " Setup up paths for tags - search in dir of curr file, then curr dir, then
 " recursively up.
 
@@ -80,14 +58,17 @@ set nowrap                  " don't wrap text
 set linebreak               " don't wrap textin the middle of a word
 set autoindent              " always set autoindenting on
 set smartindent             " use smart indent if there is no indent file
-set tabstop=4               " <tab> inserts 4 spaces
-set shiftwidth=4            " an indent level is 4 spaces wide.
-set softtabstop=4           " <BS> over an autoindent deletes both spaces.
-set expandtab               " Use spaces, not tabs, for autoindent/tab key.
 set shiftround              " rounds indent to a multiple of shiftwidth
 set matchpairs+=<:>         " show matching <> (html mainly) as well
 set foldmethod=indent       " allow us to fold on indents
 set foldlevel=99            " don't fold by default
+
+" default tab settings
+set ts=4 sts=4 sw=4 expandtab
+
+" Syntax of these languages is fussy over tabs Vs spaces
+autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " close preview window automatically when we move around
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -114,19 +95,21 @@ set statusline=%f\ [%02n]\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}\ %=[%l,%v]
 set noerrorbells            " don't bell or blink
 
 " displays tabs with :set list & displays when a line runs off-screen
-set listchars=tab:>-,trail:-,precedes:<,extends:>
+set listchars=tab:▸\ ,trail:-,precedes:<,extends:>
 set list
 
 """ Searching and Patterns
 set ignorecase              " Default to using case insensitive searches,
 set smartcase               " unless uppercase letters are used in the regex.
-set smarttab                " Handle tabs more intelligently 
+set smarttab                " Handle tabs more intelligently
 set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
 
 """" Display
 if has("gui_running")
     colorscheme solarized
+    highlight NonText guifg=#4a4a59
+    highlight SpecialKey guifg=#4a4a59
 else
     colorscheme desert
     set nocursorline        " remove cursorline
@@ -213,9 +196,6 @@ nnoremap <leader>fl :FufLine<CR>
 "  happen as if in command mode )
 imap <C-W> <C-O><C-W>
 
-" Open NerdTree
-map <leader>n :NERDTreeToggle<CR>
-
 " Ack searching
 nmap <leader>a <Esc>:Ack! <cword>
 
@@ -234,3 +214,44 @@ lcd ~/code
 
 " from latex-suite
 let g:tex_flavor='latex'
+
+" #############################################################################
+" Some helpful user-defined functions
+" #############################################################################
+
+" :Shell => this function lets us do shell commands which pull the output to a
+" scratch vim buffer
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+    echo a:cmdline
+    let expanded_cmdline = a:cmdline
+    for part in split(a:cmdline, ' ')
+        if part[0] =~ '\v[%#<]'
+            let expanded_part = fnameescape(expand(part))
+            let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+        endif
+    endfor
+    botright new
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    call setline(1, 'You entered:    ' . a:cmdline)
+    call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+    call setline(3,substitute(getline(2),'.','=','g'))
+    execute '$read !'. expanded_cmdline
+    setlocal nomodifiable
+    1
+endfunction
+
+" :Clean => this function cleans up any whitespace at the end of lines
+command! -complete=shellcmd Clean call s:StripTrailingWhitespaces()
+function! s:StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
