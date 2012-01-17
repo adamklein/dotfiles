@@ -80,6 +80,9 @@ alias apt-up='sudo apt-get update;sudo apt-get -y --force-yes dselect-upgrade'
 # bashmarks
 source $HOME/.bashmarks
 
+# let segfault leave core dump plz
+ulimit -c unlimited
+
 BLUE="\[\033[1;36m\]"
 YELLOW="\[\033[0;33m\]"
 GREEN="\[\033[0;00m\]"
