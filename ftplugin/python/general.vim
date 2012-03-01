@@ -17,7 +17,7 @@ endfunction
 nnoremap <leader>x :call ExecAndPreview("python")<CR>
 nnoremap <leader>xx :pclose<CR>
 
-set omnifunc=pysmell#Complete "pythoncomplete#Complete
+set omnifunc=pythoncomplete#Complete
 set completeopt=menu,longest,preview
 set pumheight=6    " keep a small popup menu window
 
