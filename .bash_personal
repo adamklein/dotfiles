@@ -57,11 +57,13 @@ alias gra='git remote add'
 alias grr='git remote rm'
 alias gpu='git pull --ff-only'
 alias gcl='git clone'
+alias khq='sudo stop hornetq-dev-server && sudo rm -rf /nv/hornetq-data/ && sudo start hornetq-dev-server'
 
 # some more ls aliases
-alias ll='ls -l'
+alias ll='ls -alFh'
 alias la='ls -A'
-#alias l='ls -CF'
+
+alias sbtd='sbt -mem 4096 -jvm-debug 5005 -J-Xss10M'
 
 # update for ubuntu
 alias apt-up='sudo apt-get update;sudo apt-get -y --force-yes dselect-upgrade'
@@ -103,14 +105,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export WORKON_HOME=$HOME/.virtualenvs
-
-export PATH=$HOME/code/scripts:$PATH
-
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
-
-if [ -f /home/adam/code/scripts/launch-ssh-agent ]; then
-    source /home/adam/code/scripts/launch-ssh-agent
-fi
+# enable git diff func
+function git_diff() {
+  git diff --no-ext-diff -w "$@" | vim -R -
+}

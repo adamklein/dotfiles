@@ -16,6 +16,10 @@ call pathogen#helptags()
 " Cython file recognition
 au BufReadPre,BufNewFile *.pyx,*.pxd set filetype=pyrex
 
+" default tab settings
+set ts=4 sts=4 sw=4
+set expandtab
+
 " ==========================================================
 " Basic Settings
 " ==========================================================
@@ -62,9 +66,6 @@ set shiftround              " rounds indent to a multiple of shiftwidth
 set matchpairs+=<:>         " show matching <> (html mainly) as well
 set foldmethod=indent       " allow us to fold on indents
 set foldlevel=99            " don't fold by default
-
-" default tab settings
-set ts=4 sts=4 sw=4 expandtab
 
 " Syntax of these languages is fussy over tabs Vs spaces
 autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
@@ -145,8 +146,8 @@ let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
 let Tlist_Show_One_File = 1       " Only show tags for current buffer
 let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
 
-" supertab completion type: omni
-let g:SuperTabDefaultCompletionType="<C-x><C-o>"
+" supertab completion type
+let g:SuperTabDefaultCompletionType="context"
 
 " Use tab in normal mode to switch buffers
 nnoremap <Tab> :bnext<CR>
@@ -197,6 +198,9 @@ nnoremap <leader>fl :FufLine<CR>
 " and lets make these all work in insert mode too ( <C-O> makes next cmd
 "  happen as if in command mode )
 imap <C-W> <C-O><C-W>
+
+" format paragraph
+nnoremap <leader>fp gqip
 
 " Ack searching
 nmap <leader>a <Esc>:Ack! <cword>
