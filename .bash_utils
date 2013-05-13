@@ -1,7 +1,4 @@
 # some more ls aliases
-alias ll='ls -lF'
-alias la='ls -A'
-
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'

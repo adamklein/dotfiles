@@ -1,4 +1,4 @@
-export HOME="/Users/adam"
+export HOME=~
 
 if [ -f $HOME/.bash_personal ]; then
     . $HOME/.bash_personal
@@ -11,11 +11,12 @@ fi
 # export MKL_NUM_THREADS
 
 # application path
-export PATH=/Applications/MacVim.app/Contents/MacOS/:/usr/local/share/python:/usr/texbin:$PATH
+export PATH=/home/aklein/bin:$PATH
 
 # python path
-export PYTHONPATH=/usr/local/lib/python:$PYTHONPATH
+# export PYTHONPATH=:$PYTHONPATH
+
 
 # setup virtualenv for python
 export WORKON_HOME=$HOME/.virtualenvs
-source virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
