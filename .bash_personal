@@ -23,9 +23,6 @@ shopt -s checkwinsize
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    #alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -37,11 +34,6 @@ alias v='vim --remote-silent'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ipy="ipython --pylab"
-# alias iqlab='ipython-qtconsole --paging vsplit --pylab'
-alias iqlab='ipython-qtconsole --pylab=inline'
-alias rehornet='sudo stop hornetq-dev-server && sudo rm -rf /nv/hornetq-data/ && sudo start hornetq-dev-server'
-alias aclean='rm -rf */*/target */target && find ~/.ivy2/{cache,local} -name \*novus\* | xargs rm -rfv'
 
 # sudo play nice please
 # alias sudo="sudo env PATH=$PATH"
@@ -64,11 +56,6 @@ alias khq='sudo stop hornetq-dev-server && sudo rm -rf /nv/hornetq-data/ && sudo
 # some more ls aliases
 alias ll='ls -alFh'
 alias la='ls -A'
-
-alias sbtd='sbt -mem 4096 -jvm-debug 5005 -J-Xss10M'
-
-# update for ubuntu
-alias apt-up='sudo apt-get update;sudo apt-get -y --force-yes dselect-upgrade'
 
 ############################################################################
 #
