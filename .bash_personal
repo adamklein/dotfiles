@@ -35,9 +35,13 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+# Prevents accidentally clobbering files.
+alias mkdir='mkdir -p'
+
 # sudo play nice please
 # alias sudo="sudo env PATH=$PATH"
 
+# git aliases
 alias ga='git add'
 alias gp='git push'
 alias gl='git log --oneline'
@@ -51,32 +55,31 @@ alias gra='git remote add'
 alias grr='git remote rm'
 alias gpu='git pull --ff-only'
 alias gcl='git clone'
-alias khq='sudo stop hornetq-dev-server && sudo rm -rf /nv/hornetq-data/ && sudo start hornetq-dev-server'
 
 # some more ls aliases
 alias ll='ls -alFh'
 alias la='ls -A'
 
-############################################################################
-#
-# Load basic bash utilities (handy functions and constants)
-#
-. $HOME/.bash_utils
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias du='du -kh'       # Makes a more readable output.
+alias df='df -kTh'
+
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 ############################################################################
 
 # git completion
 source $HOME/.git-completion
-
 source $HOME/.git-prompt.sh
-
 source $HOME/.bash_prompt
-
-# bashmarks
 source $HOME/.bashmarks
 
 # let segfault leave core dump plz
-ulimit -c unlimited
+# ulimit -c unlimited
 
 # pushd to directory for python package
 function pushdp {
