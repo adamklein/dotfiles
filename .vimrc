@@ -27,6 +27,8 @@ filetype on                   " try to detect filetypes
 set hidden                    " hidden buffer management
 let mapleader=","             " change the leader to be a comma vs slash
 
+set clipboard=unnamed         " cut & paste with OSX
+
 nnoremap ' `
 nnoremap ` '
 
