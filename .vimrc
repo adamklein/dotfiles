@@ -1,17 +1,34 @@
+" -- vundle start
+"
+filetype off
 set nocompatible              " Don't be compatible with vi
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'morhetz/gruvbox'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'scrooloose/nerdtree'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" -- vundle end
+
+syntax on                     " syntax highlighing
+filetype on                   " try to detect filetypes
+
 set hidden                    " hidden buffer management
 let mapleader=","             " change the leader to be a comma vs slash
 
 nnoremap ' `
 nnoremap ` '
-
-" ==========================================================
-" Pathogen - Allows us to organize our vim plugins
-" ==========================================================
-" Load pathogen with docs for all plugins
-filetype off
-call pathogen#infect()
-call pathogen#helptags()
 
 " Cython file recognition
 au BufReadPre,BufNewFile *.pyx,*.pxd set filetype=pyrex
@@ -24,10 +41,6 @@ set expandtab
 " Basic Settings
 " ==========================================================
 
-filetype on                   " try to detect filetypes
-filetype plugin indent on     " enable loading indent file for filetype
-syntax on                     " syntax highlighing
-
 set number                    " Display line numbers
 set numberwidth=1             " using only 1 column (and 1 space) while possible
 set background=dark           " We are using dark background in vim
@@ -37,21 +50,14 @@ set wildmode=full             " <Tab> cycles between all matching choices.
 
 " Ignore these files when completing
 set wildignore+=*.o,*.obj,.git,*.pyc
-set grepprg=ack-grep          " replace the default grep program with ack
 
 " Turn off a colorcolumn if it exists
 if( exists('+colorcolumn') )
     au BufEnter * set colorcolumn=0
 end
 
-" Setup up paths for tags - search in dir of curr file, then curr dir, then
-" recursively up.
-
-set tags=./tags;/.
-set tags+=~/.vim/tags/usr.include.tags
-
 "" Moving Around/Editing
-set cursorline              " have a line indicate the cursor location
+" set cursorline              " have a line indicate the cursor location
 set ruler                   " show the cursor position all the time
 set nostartofline           " Avoid moving cursor to BOL when jumping around
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
@@ -92,7 +98,6 @@ set report=0                " : commands always print changed line count.
 set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
 set ruler                   " Show some info, even without statuslines.
 set laststatus=2            " Always show statusline, even if only 1 window.
-set statusline=%f\ [%02n]\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}\ %=[%l,%v]\ %P\ %M
 set noerrorbells            " don't bell or blink
 
 " displays tabs with :set list & displays when a line runs off-screen
@@ -108,11 +113,11 @@ set incsearch               " Incrementally search while typing a /regex
 
 """" Display
 if has("gui_running")
-    colorscheme solarized
+    colorscheme industry
     highlight NonText guifg=#4a4a59
     highlight SpecialKey guifg=#4a4a59
 else
-    colorscheme desert
+    colorscheme gruvbox
     set nocursorline        " remove cursorline
 endif
 
@@ -133,31 +138,9 @@ nnoremap <leader>. :lcd %:p:h<CR>
 " hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
 
-" Jump to the definition of whatever the cursor is on
-map <leader>j :RopeGotoDefinition<CR>
-
-" ropevim plugin
-let ropevim_extended_complete=1
-let ropevim_guess_project=1
-
-" taglist plugin
-nnoremap <silent> <leader>l :TlistToggle<CR>
-let Tlist_Exit_OnlyWindow = 1     " exit if taglist is last window open
-let Tlist_Show_One_File = 1       " Only show tags for current buffer
-let Tlist_Enable_Fold_Column = 0  " no fold column (only showing one file)
-
-" supertab completion type
-let g:SuperTabDefaultCompletionType="context"
-
 " Use tab in normal mode to switch buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-
-" Toggle the tasklist
-map <leader>d <Plug>TaskList
-
-set backupdir=~/.vim/tmp
-set directory=~/.vim/tmp
 
 " scroll down up three lines at a time
 nnoremap <C-e> 3<C-e>
@@ -178,9 +161,6 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-" also in bufexplorer, disabled the nmap <leader>b prefixes
-nmap <Leader>bb :BufExplorer<CR>
-
 " close buffer easily, custom script below
 nnoremap <silent> <Leader>bq :Bclose<CR>
 
@@ -190,11 +170,6 @@ nnoremap <leader>w :w<CR>
 " easier to quit window
 nnoremap <leader>q :q<CR>
 
-" this is fuzzy finder
-nnoremap <leader>ff :FufFile<CR>
-nnoremap <leader>fb :FufBuffer<CR>
-nnoremap <leader>fl :FufLine<CR>
-
 " and lets make these all work in insert mode too ( <C-O> makes next cmd
 "  happen as if in command mode )
 imap <C-W> <C-O><C-W>
@@ -202,24 +177,17 @@ imap <C-W> <C-O><C-W>
 " format paragraph
 nnoremap <leader>fp gqip
 
-" Ack searching
-nmap <leader>a <Esc>:Ack! <cword>
-
-" Load the Gundo window
-map <leader>u :GundoToggle<CR>
-
-" MakeGreen, play nice with leader-t
-" change from <Leader>t to <Leader>]
-map <Leader>] <Plug>MakeGreen
-
-" let's start in the code directory
-lcd ~/code
+" open nerdtree
+map <C-o> :NERDTreeToggle<CR>
 
 " follow the current file's directory
 " autocmd BufEnter * silent! lcd %:p:h
 
 " from latex-suite
 let g:tex_flavor='latex'
+
+" show tabs in airline
+let g:airline#extensions#tabline#enabled = 1
 
 " #############################################################################
 " Some helpful user-defined functions
