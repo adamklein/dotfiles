@@ -29,7 +29,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-alias v='vim --remote-silent'
+alias v='vim'
 
 alias ..="cd .."
 alias ...="cd ../.."
@@ -57,8 +57,8 @@ alias gpu='git pull --ff-only'
 alias gcl='git clone'
 
 # some more ls aliases
+alias l='ls -A'
 alias ll='ls -alFh'
-alias la='ls -A'
 
 alias rm='rm -i'
 alias cp='cp -i'
