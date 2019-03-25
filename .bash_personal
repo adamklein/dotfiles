@@ -29,6 +29,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# paths
+export PATH=~/miniconda3/bin:$PATH
+
 alias v='vim'
 
 alias ..="cd .."
