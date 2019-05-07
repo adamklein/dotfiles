@@ -14,6 +14,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'morhetz/gruvbox'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdtree'
+Plugin 'lervag/vimtex'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -29,11 +30,14 @@ let mapleader=","             " change the leader to be a comma vs slash
 
 set clipboard=unnamed         " cut & paste with OSX
 
-nnoremap ' `
-nnoremap ` '
+" nnoremap ' `
+" nnoremap ` '
 
 " Cython file recognition
 au BufReadPre,BufNewFile *.pyx,*.pxd set filetype=pyrex
+
+" tex file setup
+au BufNewFile,BufRead *.tex set ts=2 sts=2 sw=2 bri wrap
 
 " default tab settings
 set ts=4 sts=4 sw=4
@@ -78,6 +82,7 @@ set foldlevel=99            " don't fold by default
 " Syntax of these languages is fussy over tabs Vs spaces
 autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType tex setlocal ts=2 sts=2 sw=2 bri wrap
 
 " close preview window automatically when we move around
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -187,6 +192,7 @@ map <C-o> :NERDTreeToggle<CR>
 
 " from latex-suite
 let g:tex_flavor='latex'
+let g:vimtex_imaps_leader = ';'
 
 " show tabs in airline
 let g:airline#extensions#tabline#enabled = 1
