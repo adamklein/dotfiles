@@ -14,7 +14,6 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'morhetz/gruvbox'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdtree'
-Plugin 'lervag/vimtex'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -120,7 +119,7 @@ if has("gui_running")
     highlight NonText guifg=#4a4a59
     highlight SpecialKey guifg=#4a4a59
 else
-    colorscheme gruvbox
+    colorscheme desert
     set nocursorline        " remove cursorline
 endif
 
