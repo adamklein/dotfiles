@@ -5,14 +5,16 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-export PATH="/Users/adamklein/miniconda3/bin:$PATH"
+# paths
+export PATH=~/miniconda3/bin:$PATH
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+# cd=pushcd
+setopt AUTO_PUSHD
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -45,8 +47,8 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias pya='source activate'
 alias pyd='source deactivate'
 
-
 alias g="jump"
 alias s="bookmark"
 alias d="deletemark"
 alias b="showmarks"
+
