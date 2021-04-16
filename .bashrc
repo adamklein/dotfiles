@@ -28,6 +28,7 @@ export LC_COLLATE="POSIX"
 source "$HOME/.bash_aliases"
 
 # git completion
+source $HOME/.git-prompt.sh
 source $HOME/.git-completion
 source $HOME/.bash_prompt
 

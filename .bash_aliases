@@ -43,10 +43,11 @@ alias jn='jupyter notebook'
 alias jnc='jupyter notebook --notebook-dir=`pwd`'
 
 # some more ls aliases
-alias l='ls -lh --color=auto'
-alias ll='ls -AlFh --color=auto'
-alias la='ls -A --color=auto'
-alias lt='ls -AlFht --color=auto'
+alias l='ls -lhG'
+alias ls='ls -G'
+alias ll='ls -AlFhG'
+alias la='ls -AG'
+alias lt='ls -AlFhtG'
 
 # grep colors
 alias grep='grep --color=auto'
@@ -56,7 +57,7 @@ alias egrep='egrep --color=auto'
 # grep alias
 alias gi='grep -i'
 
-# some more ls aliases
+# some more aliases
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
